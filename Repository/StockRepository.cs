@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
+using api.Dtos.Stock;
 using api.Interfaces;
 using api.Models;
 using Microsoft.EntityFrameworkCore;
@@ -55,6 +56,21 @@ namespace api.Repository
             return stockModel;
         }
 
-
+        public async Task<Stock?> UpdateAsync(int id, UpdateStockDto stockDto)
+        {
+            var stockModel = await _dbContext.Stocks.FirstOrDefaultAsync(x => x.Id == id);
+            if (stockModel == null)
+            {
+                return null;
+            }
+            stockModel.Symbol = stockDto.Symbol;
+            stockModel.CompanyName = stockDto.CompanyName;
+            stockModel.Purchase = stockDto.Purchase;
+            stockModel.LastDiv = stockDto.LastDiv;
+            stockModel.Industry = stockDto.Industry;
+            stockModel.MarketCap = stockDto.MarketCap;
+            await _dbContext.SaveChangesAsync();
+            return stockModel;
+        }
     }
 }

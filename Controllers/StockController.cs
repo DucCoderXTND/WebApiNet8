@@ -58,7 +58,16 @@ namespace api.Controllers
             //xử lý thành công và không có dữ liệu cụ thể nào cần được trả về
             return NoContent();
         }
-        
+        [HttpPut]
+        [Route("{id:int}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStockDto stockDto)
+        {
+            var stockModel =await _stockRepo.UpdateAsync(id,stockDto);
+            if(stockModel == null){
+                return NotFound();
+            }
+            return Ok(stockModel.ToStockDto());
+        }
 
 
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Dtos.Stock;
 using api.Models;
 
 namespace api.Interfaces
@@ -12,5 +13,6 @@ namespace api.Interfaces
         Task<Stock?> GetByIdAsync(int id);
         Task<Stock> CreateAsync(Stock stock);
         Task<Stock?> DeleteAsync(int id);
+        Task<Stock?> UpdateAsync(int id, UpdateStockDto stockDto);
     }
 }
