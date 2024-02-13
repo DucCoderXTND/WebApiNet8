@@ -20,5 +20,15 @@ namespace api.Repository
         {
             return await _dbContext.Comments.ToListAsync();
         }
+
+        public async Task<Comment?> GetByIdAsync(int id)
+        {
+            var comment = await _dbContext.Comments.FindAsync(id);
+            if (comment == null)
+            {
+                return null;
+            }
+            return comment;
+        }
     }
 }
