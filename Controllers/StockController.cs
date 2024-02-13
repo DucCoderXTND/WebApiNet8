@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Dtos.Stock;
+using api.Helpers;
 using api.Interfaces;
 using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
@@ -62,13 +63,21 @@ namespace api.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStockDto stockDto)
         {
-            var stockModel =await _stockRepo.UpdateAsync(id,stockDto);
-            if(stockModel == null){
+            var stockModel = await _stockRepo.UpdateAsync(id, stockDto);
+            if (stockModel == null)
+            {
                 return NotFound();
             }
             return Ok(stockModel.ToStockDto());
         }
-        
+
+        [HttpGet("Get by query")]
+        public async Task<IActionResult> GetAllByQuerys([FromQuery] QueryObject query)
+        {
+            var stock = await _stockRepo.GetAllByQuery(query);
+            var stockDto = stock.Select(s=>s.ToStockDto());
+            return Ok(stockDto);
+        }
 
 
     }
