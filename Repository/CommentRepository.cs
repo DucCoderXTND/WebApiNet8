@@ -25,6 +25,18 @@ namespace api.Repository
             return comment;
         }
 
+        public async Task<Comment?> DeleteAsync(int id)
+        {
+            var commentExists = await _dbContext.Comments.FirstOrDefaultAsync(c => c.Id == id);
+            if (commentExists == null)
+            {
+                return null;
+            }
+            _dbContext.Comments.Remove(commentExists);
+            await _dbContext.SaveChangesAsync();
+            return commentExists;
+        }
+
         public async Task<List<Comment>> GetAllAsync()
         {
             return await _dbContext.Comments.ToListAsync();
@@ -42,8 +54,8 @@ namespace api.Repository
 
         public async Task<Comment?> UpdateAsync(int id, UpdateCommentRequestDto commentDto)
         {
-            var commentExists =await _dbContext.Comments.FirstOrDefaultAsync(c=>c.Id == id);
-            if(commentExists == null)
+            var commentExists = await _dbContext.Comments.FirstOrDefaultAsync(c => c.Id == id);
+            if (commentExists == null)
             {
                 return null;
             }
