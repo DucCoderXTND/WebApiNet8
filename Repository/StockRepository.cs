@@ -39,7 +39,7 @@ namespace api.Repository
 
         public async Task<List<Stock>> GetAllAsync()
         {
-            return await _dbContext.Stocks.ToListAsync();
+            return await _dbContext.Stocks.Include(c=>c.Comments).ToListAsync();
         }
 
         public async Task<Stock?> GetByIdAsync(int id)
@@ -48,7 +48,7 @@ namespace api.Repository
 
             var stockModel = await (from s in _dbContext.Stocks
                                     where s.Id == id
-                                    select s).FirstOrDefaultAsync();
+                                    select s).Include(c=>c.Comments).FirstOrDefaultAsync();
             if (stockModel == null)
             {
                 return null;
