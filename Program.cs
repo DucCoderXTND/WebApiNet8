@@ -23,6 +23,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options=>{
 
 //Đăng ký dịch vụ trong Di
 builder.Services.AddScoped<IStockRepository,StockRepository>();
+builder.Services.AddScoped<ICommentRepository,CommentRepository>();
 
 var app = builder.Build();
 
