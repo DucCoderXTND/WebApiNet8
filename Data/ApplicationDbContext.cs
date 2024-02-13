@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace api.Data
 {
-    public class AppiccationDbContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
-        public AppiccationDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+        public ApplicationDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
         {
-            
+
         }
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<Comment> Comments { get; set; }
