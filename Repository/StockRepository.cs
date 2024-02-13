@@ -24,6 +24,18 @@ namespace api.Repository
             return stock;
         }
 
+        public async Task<Stock?> DeleteAsync(int id)
+        {
+            var stock = await _dbContext.Stocks.FirstOrDefaultAsync(x => x.Id == id);
+            if (stock == null)
+            {
+                return null;
+            }
+            _dbContext.Stocks.Remove(stock);
+            await _dbContext.SaveChangesAsync();
+            return stock;
+        }
+
         public async Task<List<Stock>> GetAllAsync()
         {
             return await _dbContext.Stocks.ToListAsync();
@@ -43,6 +55,6 @@ namespace api.Repository
             return stockModel;
         }
 
-       
+
     }
 }

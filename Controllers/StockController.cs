@@ -44,9 +44,22 @@ namespace api.Controllers
             }
             var stockModel = stockDto.ToStockFromCreate();
             await _stockRepo.CreateAsync(stockModel);
-            return CreatedAtAction(nameof(GetById), new {id = stockModel.Id}, stockModel.ToStockDto());
+            return CreatedAtAction(nameof(GetById), new { id = stockModel.Id }, stockModel.ToStockDto());
+        }
+        [HttpDelete]
+        [Route("{id:int}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            var stockModel = await _stockRepo.DeleteAsync(id);
+            if (stockModel == null)
+            {
+                return NotFound();
+            }
+            //xử lý thành công và không có dữ liệu cụ thể nào cần được trả về
+            return NoContent();
         }
         
+
 
 
     }
