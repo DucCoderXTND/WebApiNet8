@@ -2,6 +2,7 @@ using api.Data;
 using api.Interfaces;
 using api.Models;
 using api.Repository;
+using api.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -65,6 +66,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //Đăng ký dịch vụ trong Di
 builder.Services.AddScoped<IStockRepository, StockRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 

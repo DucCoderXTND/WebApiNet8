@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Dtos.Account;
+using api.Interfaces;
 using api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +17,11 @@ namespace api.Controllers
         //UserManager là một lớp quản lý người dùng
         //chịu trách nhiệm quản lý thông tin người dùng vd Crud user information
         private readonly UserManager<AppUser> _userManager;
-        public AccountController(UserManager<AppUser> userManager)
+        private readonly ITokenService _tokenService;
+        public AccountController(UserManager<AppUser> userManager, ITokenService tokenService)
         {
             _userManager = userManager;
+            _tokenService = tokenService;
         }
 
         [HttpPost("register")]
@@ -39,7 +42,13 @@ namespace api.Controllers
                     var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
                     if (roleResult.Succeeded)
                     {
-                        return Ok("User created");
+                        return Ok(
+                            new NewUserDto{
+                                UserName = registerDto.UserName,
+                                Email = registerDto.Email,
+                                Token = _tokenService.CreateToken(appUser)
+                            }
+                        );
                     }
                     else
                     {
