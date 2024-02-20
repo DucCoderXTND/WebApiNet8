@@ -45,7 +45,8 @@ namespace api.Repository
 
         public async Task<List<Stock>> GetAllByQuery(QueryObject query)
         {
-            var stock = _dbContext.Stocks.Include(s => s.Comments).AsQueryable();
+            // Phương thức ThenInclude cho phép bạn bao gồm dữ liệu từ các quan hệ liên kết ngoại trừ các bảng liên kết
+            var stock = _dbContext.Stocks.Include(s => s.Comments).ThenInclude(a=>a.AppUser).AsQueryable();
             if (!string.IsNullOrWhiteSpace(query.CompanyName))
             {
                 stock = stock.Where(s => s.CompanyName.Contains(query.CompanyName));

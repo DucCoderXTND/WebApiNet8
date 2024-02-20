@@ -39,12 +39,12 @@ namespace api.Repository
 
         public async Task<List<Comment>> GetAllAsync()
         {
-            return await _dbContext.Comments.ToListAsync();
+            return await _dbContext.Comments.Include(a => a.AppUser).ToListAsync();
         }
 
         public async Task<Comment?> GetByIdAsync(int id)
         {
-            var comment = await _dbContext.Comments.FindAsync(id);
+            var comment = await _dbContext.Comments.Include(a => a.AppUser).FirstOrDefaultAsync(c=>c.Id == id);
             if (comment == null)
             {
                 return null;
