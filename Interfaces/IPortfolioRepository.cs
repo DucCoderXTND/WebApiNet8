@@ -10,5 +10,6 @@ namespace api.Interfaces
     {
         Task<List<Stock>> GetUserPortfolio(AppUser appUser);
         Task<Portfolio> CreateAsync(Portfolio newPortfolio);
+        Task<Portfolio?> DeleteAsync(AppUser appUser, string symbol);
     }
 }
