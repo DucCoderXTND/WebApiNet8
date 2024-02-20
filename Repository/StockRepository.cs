@@ -84,6 +84,11 @@ namespace api.Repository
 
         }
 
+        public async Task<Stock?> StockSymbolExist(string symbol)
+        {
+            return await _dbContext.Stocks.FirstOrDefaultAsync(x=>x.Symbol == symbol);
+        }
+
         public async Task<Stock?> UpdateAsync(int id, UpdateStockDto stockDto)
         {
             var stockModel = await _dbContext.Stocks.FirstOrDefaultAsync(x => x.Id == id);

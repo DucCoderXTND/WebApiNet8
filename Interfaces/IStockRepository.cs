@@ -17,5 +17,6 @@ namespace api.Interfaces
         Task<Stock?> UpdateAsync(int id, UpdateStockDto stockDto);
         Task<bool> StockExist(int id);
         Task<List<Stock>> GetAllByQuery(QueryObject query);
+        Task<Stock?> StockSymbolExist(string symbol);
     }
 }
