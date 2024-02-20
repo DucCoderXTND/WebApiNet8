@@ -44,6 +44,11 @@ namespace api.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var stockSymbol = await _stockRepo.StockSymbolExist(stockDto.Symbol);
+            if (stockSymbol is not null)
+            {
+                return BadRequest("This symbol already exists");
+            }
             var stockModel = stockDto.ToStockFromCreate();
             await _stockRepo.CreateAsync(stockModel);
             return CreatedAtAction(nameof(GetById), new { id = stockModel.Id }, stockModel.ToStockDto());
@@ -77,7 +82,7 @@ namespace api.Controllers
         public async Task<IActionResult> GetAllByQuerys([FromQuery] QueryObject query)
         {
             var stock = await _stockRepo.GetAllByQuery(query);
-            var stockDto = stock.Select(s=>s.ToStockDto());
+            var stockDto = stock.Select(s => s.ToStockDto());
             return Ok(stockDto);
         }
 
